@@ -6,30 +6,31 @@ on:
       - main
 
 jobs:
-    build:
-        runs-on: windows-latest
-        steps:
-          - name: Checkout code 🛎️
-            uses: actions/checkout@v2
-        
-          - name: Set up .NET Core ⚒️
-            uses: actions/setup-dotnet@v1
-            with:
-              dotnet-version: '7.0.x'
-              
-          - name: Restore dependencies 🚧
-            run: dotnet restore ./src
-          
-          - name: Build app 🚀
-            run: dotnet build ./src/SimpleApp.sln --no-restore -c Release
+#    build:
+#        runs-on: windows-latest
+#        steps:
+#          - name: Checkout code 🛎️
+#            uses: actions/checkout@v2
+#        
+#          - name: Set up .NET Core ⚒️
+#            uses: actions/setup-dotnet@v1
+#            with:
+#              dotnet-version: '7.0.x'
+#              
+#          - name: Restore dependencies 🚧
+#            run: dotnet restore ./src
+#          
+#          - name: Build app 🚀
+#            run: dotnet build ./src/SimpleApp.sln --no-restore -c Release
 
 
     test:
-      needs: build
+#      needs: build
       runs-on: windows-latest
       steps:
         - name: Test app 🧪
-          run: dotnet test ./src  --no-build
+          run: |
+            pwd && ls && dotnet test ./src  --no-build
           
 #    deploy:
 #        needs: test
