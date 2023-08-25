@@ -30,7 +30,7 @@ jobs:
       steps:
         - name: Test app 🧪
           run: |
-            pwd
+            pwd && cd src
           
 #    deploy:
 #        needs: test
