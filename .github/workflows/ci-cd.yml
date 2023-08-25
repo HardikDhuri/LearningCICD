@@ -1,4 +1,4 @@
-name: Build, test and deploy ASP.Net Core app to Azure Web App - myowncicdpipelineapp
+name: Build and Test ASP.Net Core app
 
 on:
   push:
@@ -6,26 +6,36 @@ on:
       - main
 
 jobs:
-    build:
-        runs-on: windows-latest
-        steps:
-          - name: Checkout code 🛎️
-            uses: actions/checkout@v2
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code 🛎️
+        uses: actions/checkout@v2
 
-          - name: Set up .NET Core ⚒️
-            uses: actions/setup-dotnet@v1
-            with:
-              dotnet-version: '7.0.x'
+      - name: Set up .NET Core ⚒️
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '7.0.x'
 
-          - name: Restore dependencies 🚧
-            run: dotnet restore ./src
+      - name: Restore dependencies 🚧
+        run: dotnet restore ./src
 
-          - name: Build app 🚀
-            run: dotnet build ./src/SimpleApp.sln --no-restore -c Release
-          
-          - name: Test app 🧪
-            run: dotnet test ./src/SimpleApp.sln --no-build -c Release
+      - name: Build app 🚀
+        run: dotnet build ./src/SimpleApp.sln --no-restore -c Release
 
-#    deploy:
-#        needs: test
-#        runs-on: windows-latest
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code 🛎️
+        uses: actions/checkout@v2
+
+      - name: Set up .NET Core ⚒️
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Restore dependencies 🚧
+        run: dotnet restore ./src
+
+      - name: Test app 🧪
+        run: dotnet test ./src/SimpleApp.sln --no-build -c Release
