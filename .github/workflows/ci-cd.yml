@@ -24,7 +24,7 @@ jobs:
             run: dotnet build ./src/SimpleApp.sln --no-restore -c Release
           
           - name: Test app 🧪
-            run: dotnet test ./src/SimpleApp.sln --no-build
+            run: dotnet test ./src/SimpleApp.sln --no-build -c Release
 
 #    deploy:
 #        needs: test
