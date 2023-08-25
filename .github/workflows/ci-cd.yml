@@ -23,6 +23,13 @@ jobs:
       - name: Build app 🚀
         run: dotnet build ./src/SimpleApp.sln --no-restore -c Release
 
+      # Save build artifacts to be used in the "test" stage
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: ./src/bin/Release
+
   test:
     runs-on: windows-latest
     needs: build
@@ -37,8 +44,15 @@ jobs:
 
       # Restore dependencies using the lock file from the build stage
       - name: Restore dependencies 🚧
-        run: dotnet restore ./src --locked-mode
+        run: dotnet restore --locked-mode
 
-      # Run tests using the build artifacts (already available in the workspace)
+      # Download the build artifacts from the "build" stage
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifacts
+          path: build-artifacts
+
+      # Run tests using the build artifacts
       - name: Test app 🧪
         run: dotnet test ./src/SimpleApp.sln --no-build -c Release
