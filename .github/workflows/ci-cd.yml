@@ -26,15 +26,6 @@ jobs:
           - name: Test app 🧪
             run: dotnet test ./src/SimpleApp.sln --no-build
 
-
-    test:
-#      needs: build
-      runs-on: windows-latest
-      steps:
-        
-          run: |
-            pwd && cd src
-          
 #    deploy:
 #        needs: test
 #        runs-on: windows-latest
