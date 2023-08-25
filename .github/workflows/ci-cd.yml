@@ -9,18 +9,24 @@ jobs:
     build:
         runs-on: windows-latest
         steps:
-            - uses: actions/checkout@v2
+          - name: Checkout code 🛎️
+            uses: actions/checkout@v2
         
-            - name: Set up .NET Core
-              uses: actions/setup-dotnet@v1
-              with:
-                dotnet-version: '7.x'
-                include-prerelease: true
-    
-    test:
-        needs: build
-        runs-on: windows-latest
-
-    deploy:
-        needs: test
-        runs-on: windows-latest
+          - name: Set up .NET Core ⚒️
+            uses: actions/setup-dotnet@v1
+            with:
+              dotnet-version: '7.0.x'
+              
+          - name: Restore dependencies 🚧
+            run: dotnet restore ./src
+          
+          - name: Build app 🚀
+            run: dotnet build ./src/SimpleApp.sln --no-restore -c Release
+            
+#    test:
+#        needs: build
+#        runs-on: windows-latest
+#
+#    deploy:
+#        needs: test
+#        runs-on: windows-latest
