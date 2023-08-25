@@ -23,10 +23,13 @@ jobs:
           - name: Build app 🚀
             run: dotnet build ./src/SimpleApp.sln --no-restore -c Release
             
-#    test:
-#        needs: build
-#        runs-on: windows-latest
-#
+    test:
+      needs: build
+      runs-on: windows-latest
+      steps:
+        - name: Test app 🧪
+          run: dotnet test ./src/SimpleApp.sln  --no-build
+          
 #    deploy:
 #        needs: test
 #        runs-on: windows-latest
