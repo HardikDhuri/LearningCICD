@@ -22,9 +22,14 @@ jobs:
 
       - name: Build app 🚀
         run: dotnet build ./src/SimpleApp.sln --no-restore -c Release
+        # Store the build artifacts
+        # Artifacts will be available for the next stage
+        artifacts:
+          path: ./src/bin/Release
 
   test:
     runs-on: windows-latest
+    needs: build
     steps:
       - name: Checkout code 🛎️
         uses: actions/checkout@v2
@@ -34,8 +39,10 @@ jobs:
         with:
           dotnet-version: '7.0.x'
 
+      # Restore dependencies using the lock file from the build stage
       - name: Restore dependencies 🚧
-        run: dotnet restore ./src
+        run: dotnet restore --locked-mode
 
+      # Run tests using the build artifacts
       - name: Test app 🧪
         run: dotnet test ./src/SimpleApp.sln --no-build -c Release
