@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - main
-
+env:
+  DOTNET_VERSION: '7.0.x'
+  AZURE_WEBAPP_NAME: myowncicdpipelineapp
+  
 jobs:
-    build:
+    build-test-deploy:
         runs-on: windows-latest
         steps:
           - name: Checkout code 🛎️
@@ -15,7 +18,7 @@ jobs:
           - name: Set up .NET Core ⚒️
             uses: actions/setup-dotnet@v1
             with:
-              dotnet-version: '7.0.x'
+              dotnet-version: ${{ env.DOTNET_VERSION }}
 
           - name: Restore dependencies 🚧
             run: dotnet restore ./src
@@ -25,7 +28,14 @@ jobs:
           
           - name: Test app 🧪
             run: dotnet test ./src/SimpleApp.sln --no-build -c Release
+            
+          - name: Publish app 📰
+            run: dotnet publish ./src/SimpleApp.sln -c Release -o ./out
 
-#    deploy:
-#        needs: test
-#        runs-on: windows-latest
+          - name: Deploy to azure web-apps 🚢
+            uses: azure/webapps-deploy@v2
+            with: 
+              app-name: ${{ env.AZURE_WEBAPP_NAME }}
+              publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7F07654942C54EB78C7B9C501F66E1EE }}
+              package: ./out
+            
