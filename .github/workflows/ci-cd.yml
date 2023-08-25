@@ -37,7 +37,7 @@ jobs:
 
       # Restore dependencies using the lock file from the build stage
       - name: Restore dependencies 🚧
-        run: dotnet restore --locked-mode
+        run: dotnet restore ./src --locked-mode
 
       # Run tests using the build artifacts (already available in the workspace)
       - name: Test app 🧪
